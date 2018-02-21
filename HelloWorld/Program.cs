@@ -4,10 +4,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using HelloWorld.University;
+
 namespace HelloWorld
 {
-    class Person : IEquatable<Person>, IComparable<Person>
+    namespace University
     {
+        class Student : Person
+        {
+            public Student() : base()
+            {
+                this.Neptun = "000000";
+                this.Year = 1970;
+            }
+
+            public Student(string name, int age, GenderType gender, string neptun, int year) : base(name, age, gender)
+            {
+                Neptun = neptun;
+                Year = year;
+            }
+
+            public string Neptun { get; set; }
+            public int Year { get; set; }
+
+
+
+            public override bool Equals(object obj)
+            {
+                return base.Equals(obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
+
+            public override string ToString()
+            {
+                return $"{base.Name} {this.Neptun}";
+            }
+
+            public override void Introduce()
+            {
+                Console.WriteLine("I am a student");
+            }
+        }
+    }
+
+    internal class Person : IEquatable<Person>, IComparable<Person>
+    {
+        public static bool operator ==(Person a, Person b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Person a, Person b)
+        {
+            return !(a.Equals(b));
+        }
+
         public enum GenderType { Male, Female, AttackHelicopter, Undefined };
         public string Name { get; set; }
         public int Age { get; set; }
@@ -50,6 +105,21 @@ namespace HelloWorld
                 return string.Compare(this.Name, other.Name);
             return this.Age - other.Age;
         }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public virtual void Introduce()
+        {
+            Console.WriteLine("I am a person");
+        }
     }
 
     class Program
@@ -59,6 +129,10 @@ namespace HelloWorld
             Person p1 = new Person();
             Person p2 = new Person("Teal'c", 80, Person.GenderType.Male);
             Person p3 = new Person("Na'onac", 5000, Person.GenderType.AttackHelicopter);
+
+            Student s1 = new Student();
+            Person sp1 = new Student();
+
             Console.WriteLine(p1);
             Console.WriteLine(p3);
             Console.WriteLine(p1.Equals(p3));
